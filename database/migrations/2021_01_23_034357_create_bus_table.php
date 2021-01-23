@@ -13,7 +13,7 @@ class CreateBusTable extends Migration
      */
     public function up()
     {
-        Schema::create('bus', function (Blueprint $table) {
+        Schema::create('buses', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('bus_name');
             $table->string('img_url');

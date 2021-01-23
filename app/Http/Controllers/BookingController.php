@@ -54,7 +54,7 @@ class BookingController extends Controller
     {
         $day = date('Y-m-d');
         $rules = [
-            'start_date' => "required |date_format:Y-m-d|after: $day|unique:booking",
+            'start_date' => "required |date_format:Y-m-d|after: $day|unique:bookings",
             'end_date' => 'required |date_format:Y-m-d|after_or_equal:start_date',
             'payment' => 'required',
             'status' => 'required',

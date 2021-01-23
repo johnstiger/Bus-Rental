@@ -13,10 +13,10 @@ class CreateBookingTable extends Migration
      */
     public function up()
     {
-        Schema::create('booking', function (Blueprint $table) {
+        Schema::create('bookings', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedBigInteger('client_id');
-            $table->unsignedBigInteger('bus_id');
+            // $table->unsignedBigInteger('bus_id');
             $table->date('start_date');
             $table->date('end_date');
             $table->string('price');
@@ -25,8 +25,8 @@ class CreateBookingTable extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('client_id')->references('id')->on('client')->onDelete('cascade');
-            $table->foreign('bus_id')->references(('id'))->on('bus')->onDelete('cascade');
+            // $table->foreign('client_id')->references('id')->on('client')->onDelete('cascade');
+            // $table->foreign('bus_id')->references(('id'))->on('bus')->onDelete('cascade');
         });
         
     }
@@ -38,9 +38,9 @@ class CreateBookingTable extends Migration
      */
     public function down()
     {
-       Schema::dropIfExists('booking', function(Blueprint $table){
+       Schema::dropIfExists('bookings', function(Blueprint $table){
             $table ->dropForeign('account_id');
-            $table->dropForeign('bus_id');
+            // $table->dropForeign('bus_id');
             $table->dropSoftDeletes();
             $table->dropTimestamps();
         });
