@@ -57,9 +57,11 @@ class BusController extends Controller
         }
 
         $bus->bus_name = $request->bus_name;
+        $bus->img_url = $request->img_url;
         $bus->number_of_seat =$request->number_of_seat;
         $bus->price = $request->price;
         $bus->status = $request->status;
+        $bus->description = $request->description;
         $bus->save();
 
         return response()->json($bus, 201);
