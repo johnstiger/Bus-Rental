@@ -127,7 +127,6 @@ class ClientController extends Controller
     'message' => ['This credential does not match in our records!']
     ], 404);
     }
-
     $token = $client->createToken('my_app_token')->plainTextToken;
 
     $response = [

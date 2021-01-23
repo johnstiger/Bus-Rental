@@ -17,7 +17,7 @@ class CreateBusTable extends Migration
             $table->bigIncrements('id');
             $table->string('bus_name');
             $table->string('number_of_seat');
-            $table->float('price',8,2);
+            $table->string('price');
             $table->boolean('status');
             $table->longText('description');
             $table->timestamps();

@@ -19,7 +19,7 @@ class CreateBookingTable extends Migration
             $table->unsignedBigInteger('bus_id');
             $table->date('start_date');
             $table->date('end_date');
-            $table->float('price',8,2);
+            $table->string('price');
             $table->enum('payment',['paypal','COD','paymaya']);
             $table->boolean('status');
             $table->timestamps();
@@ -46,3 +46,4 @@ class CreateBookingTable extends Migration
         });
     }
 }
+

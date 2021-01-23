@@ -16,7 +16,7 @@ class Bus extends Model
         'status',
         'description'
     ];
-    public function booking(){
-        return $this->hasOne(Booking::class);
+    public function bookings(){
+        return $this->belongsToMany(Booking::class);
     }
 }

@@ -27,6 +27,8 @@ Route::get('admin/login',[App\Http\Controllers\AdminController::class,'login']);
 Route::post('admin/register',[App\Http\Controllers\AdminController::class,'register']);
 //Booking
 Route::apiResource('client/booking',BookingController::class);
+Route::post('client/booking/send/{client}',[App\Http\Controllers\BookingController::class,'store']);
+Route::get('admin/booking/status',[App\Http\Controllers\BookingController::class,'statusCheck']);
 
 Route::apiResource('admin/bus',BusController::class);
 Route::apiResource('admin/client',ClientController::class);

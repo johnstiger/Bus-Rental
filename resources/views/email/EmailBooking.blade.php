@@ -7,8 +7,9 @@
 </head>
 <body>
     <h1>Title: {{ $details['title']}}</h1>
-    <p>Client Id: {{$details['client_id']}}</p>
-    <p>Bus Id: {{$details['bus_id']}}</p>
+    <p>Client Name: {{$details['firstname']}}, {{$details['lastname']}}</p>
+    <p>Email Address: {{$details['email_address']}}</p>
+    <p>Bus Name: {{$details['bus_name']}}</p>
     <p>Start Date: {{$details['start_date']}}</p>
     <p>End Date: {{$details['end_date']}}</p>
     <p>Price: {{$details['price']}}</p>

@@ -8,7 +8,8 @@ use Illuminate\Support\Facades\Validator;
 use DateTime;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\EmailBooking;
-
+use App\Models\Client;
+use Illuminate\Support\Facades\DB;
 
 class BookingController extends Controller
 {
@@ -24,6 +25,13 @@ class BookingController extends Controller
             return response()->json(["message" => "This field is empty"], 404);
         }
         return response()->json(Booking::get(), 200);
+    }
+    public function statusCheck(){
+        $status = DB::table('booking')
+        ->select('status','id')
+        ->where("status", 1)
+        ->get();
+        return response()->json($status);
     }
 
     /**
@@ -42,51 +50,50 @@ class BookingController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Client $client)
     {
-        $client = Booking::first();
         $day = date('Y-m-d');
         $rules = [
             'start_date' => "required |date_format:Y-m-d|after: $day|unique:booking",
-            'end_date' => 'required |date_format:Y-m-d|after_or_equal:start_date|unique:booking',
+            'end_date' => 'required |date_format:Y-m-d|after_or_equal:start_date',
             'payment' => 'required',
             'status' => 'required',
-
         ];
         $validator = Validator::make($request->all(),$rules);
         if($validator->fails()){
             return response()->json($validator->errors(),400);
         }
-
         $fdate = $request->start_date;
         $tdate = $request->end_date;
         $dateTime1 = new DateTime($fdate);
         $dateTime2 = new DateTime($tdate);
         $interval = $dateTime1->diff($dateTime2);
- 
-        $bus_price = $client->bus->price;
+        $interval->format('%a');
 
-        $booking = new Booking();
-        $booking->client_id  = $client->client_id;
-        $booking->bus_id  = $client->bus_id;
-        $booking->start_date = $request->start_date;
-        $booking->end_date =$request->end_date;
-        $booking->payment = $request->payment;
-        $booking->price = $request->price;
-        $booking->status = $request->status;
-
-        $details = [
-            'title'=> 'New Client Booked',
-            'client_id' => $client->client_id,
-            'bus_id' => $client->bus->id,
+        
+        $client->bookings()->create([
+            'bus_id' => $request->bus_id,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
-            'price' => 'This is the price',
+            'price' => $request->price,
             'payment' => $request->payment,
-            'status' => $request->status,
-        ];
-        Mail::to("johnstiger12@gmail.com")->send(new EmailBooking($details));
-        $booking->save();
+            'status' => $request->status
+        ]);
+
+
+        // $details = [
+        //     'title'=> 'New Client Booked',
+        //     'firstname' => $client->firstname,
+        //     'lastname' => $client->lastname,
+        //     'email_address' => $client->email_address,
+        //     'bus_name' => $client->bus->bus_name,
+        //     'start_date' => $request->start_date,
+        //     'end_date' => $request->end_date,
+        //     'price' => $request->price,
+        //     'payment' => $request->payment,
+        //     'status' => $request->status,
+        // ];
+        // Mail::to("johnstiger12@gmail.com")->send(new EmailBooking($details));
         return response()->json(["message" => "Booking sent!"], 201);
     }
 

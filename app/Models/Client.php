@@ -23,7 +23,8 @@ class Client extends Model
         'password'
     ];
 
-    public function booking(){
+    public function bookings(){
         return $this->hasMany(Booking::class);
     }
+    
 }

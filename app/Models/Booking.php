@@ -19,11 +19,11 @@ class Booking extends Model
         'status'
     ];
 
-    public function account(){
+    public function client(){
         return $this->belongsTo(Client::class);
     }
-    public function bus(){
-        return $this->belongsTo(Bus::class);
+    public function buses(){
+        return $this->belongsToMany(Bus::class);
     }
     
 }
