@@ -117,12 +117,11 @@ class BusController extends Controller
      */
     public function destroy($id)
     {
-        
         $bus = Bus::find($id);
         if(is_null($bus)){
             return response()->json(["message" => "Id is not Found!"], 404);
         }
         $bus->delete();
-        return response()->json(["message" => "Successfully deleted!"], 204);
+        return response()->json('deleted', 204);
     }
 }
