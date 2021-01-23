@@ -24,10 +24,10 @@ class BookingController extends Controller
         if($booking == 0){
             return response()->json(["message" => "This field is empty"], 404);
         }
-        return response()->json(Booking::get(), 200);
+        return response()->json(Booking::with('buses')->get(), 200);
     }
     public function statusCheck(){
-        $status = DB::table('booking')
+        $status = DB::table('bookings')
         ->select('status','id')
         ->where("status", 1)
         ->get();

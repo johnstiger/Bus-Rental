@@ -42,8 +42,6 @@ class BusController extends Controller
      */
     public function store(Request $request)
     {
-        $bus = new Bus();
-
         $rules = [
             'bus_name' => 'required',
             'number_of_seat' => 'required',
@@ -55,7 +53,7 @@ class BusController extends Controller
         if($validator->fails()){
             return response()->json($validator->errors(),400);
         }
-
+        $bus = new Bus();
         $bus->bus_name = $request->bus_name;
         $bus->img_url = $request->img_url;
         $bus->number_of_seat =$request->number_of_seat;
@@ -119,6 +117,7 @@ class BusController extends Controller
      */
     public function destroy($id)
     {
+        
         $bus = Bus::find($id);
         if(is_null($bus)){
             return response()->json(["message" => "Id is not Found!"], 404);
