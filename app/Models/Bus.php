@@ -17,6 +17,6 @@ class Bus extends Model
         'description'
     ];
     public function bookings(){
-        return $this->belongsToMany(Booking::class);
+        return $this->belongsToMany(Booking::class,'booking_bus','booking_id','bus_id');
     }
 }

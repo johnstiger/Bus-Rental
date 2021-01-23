@@ -23,7 +23,7 @@ class Booking extends Model
         return $this->belongsTo(Client::class);
     }
     public function buses(){
-        return $this->belongsToMany(Bus::class);
+        return $this->belongsToMany(Bus::class,'booking_bus','booking_id','bus_id');
     }
     
 }
