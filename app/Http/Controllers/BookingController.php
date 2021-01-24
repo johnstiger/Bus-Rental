@@ -80,12 +80,14 @@ class BookingController extends Controller
         //     'payment' => $request->payment,
         //     'status' => $request->status
         // ]);
+
         $booking = new Booking();
         $booking->client_id = $client->id;
         $booking->bus_id = $request->bus_id;
         $booking->start_date = $request->start_date;
         $booking->end_date = $request->end_date;
         $booking->price = $request->price;
+        $booking->payment = $request->payment;
         $booking->status = $request->status;
         $booking->save();
 
