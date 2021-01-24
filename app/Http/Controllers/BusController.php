@@ -56,7 +56,6 @@ class BusController extends Controller
         }
         $imageName = time().'.'.$request->image->extension(); 
         $request->image->move(public_path('images'), $imageName);
- 
         $bus = new Bus();
         $bus->bus_name = $request->bus_name;
         $bus->img_url = $imageName;

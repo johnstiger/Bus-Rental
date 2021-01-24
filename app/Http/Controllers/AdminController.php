@@ -152,6 +152,8 @@ class AdminController extends Controller
         $admin->name = $request->name;
         $admin->email = $request->email;
         $admin->password = Hash::make($request->password);
+        $token = $admin->createToken('my_app_token')->plainTextToken;
+        $admin->api_token = $token;
         $admin->save();
         return response()->json($admin, 201);
     }
