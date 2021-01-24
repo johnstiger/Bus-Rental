@@ -20,7 +20,7 @@ class CreateDriverTable extends Migration
             $table->string('address');
             $table->string('contact_number');
             $table->string('license');
-            $table->float('salary');
+            $table->float   ('salary');
             $table->boolean('status');
             $table->timestamps();
             $table->softDeletes();
