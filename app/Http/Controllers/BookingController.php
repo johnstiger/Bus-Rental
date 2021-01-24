@@ -24,23 +24,15 @@ class BookingController extends Controller
         if($booking == 0){
             return response()->json(["message" => "This field is empty"], 404);
         }
-        return response()->json(
-            $status = DB::table('bookings')
-        ->select('id',
-        'client_id',
-        'bus_id',
-        'start_date',
-        'end_date',
-        'payment',
-        'status',
-        'created_at',
-        'updated_at',
-        'deleted_at')
-        ->where("status", 1)
-        ->get(),
-            200);
+        return response()->json(Booking::with('buses')->get(), 200);
     }
-    
+    public function statusCheck(){
+        $status = DB::table('bookings')
+        ->select('status','id')
+        ->where("status", 1)
+        ->get();
+        return response()->json($status);
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -80,7 +72,6 @@ class BookingController extends Controller
 
         
         $client->bookings()->create([
-            'client_id' => $client->id,
             'bus_id' => $request->bus_id,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,

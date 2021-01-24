@@ -43,7 +43,7 @@ class BusController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'img_url' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            // 'img_url' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'bus_name' => 'required',
             'number_of_seat' => 'required',
             'status' =>'required'
@@ -54,11 +54,13 @@ class BusController extends Controller
         if($validator->fails()){
             return response()->json($validator->errors(),400);
         }
-        $imageName = time().'.'.$request->image->extension(); 
-        $request->image->move(public_path('images'), $imageName);
+        // $imageName = time().'.'.$request->image->extension(); 
+        // $request->image->move(public_path('images'), $imageName);
+        
         $bus = new Bus();
         $bus->bus_name = $request->bus_name;
-        $bus->img_url = $imageName;
+        // $bus->img_url = $imageName;
+        $bus->img_url = $request->img_url;
         $bus->number_of_seat =$request->number_of_seat;
         $bus->price = $request->price;
         $bus->status = $request->status;
