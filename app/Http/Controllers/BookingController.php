@@ -89,19 +89,19 @@ class BookingController extends Controller
         $booking->status = $request->status;
         $booking->save();
 
-        $details = [
-            'title'=> 'New Client Booked',
-            'firstname' => $client->firstname,
-            'lastname' => $client->lastname,
-            'email_address' => $client->email_address,
-            'bus_name' => $request->bus_name,
-            'start_date' => $request->start_date,
-            'end_date' => $request->end_date,
-            'price' => $request->price,
-            'payment' => $request->payment,
-            'status' => $request->status,
-        ];
-        Mail::to("johnstiger12@gmail.com")->send(new EmailBooking($details));
+        // $details = [
+        //     'title'=> 'New Client Booked',
+        //     'firstname' => $client->firstname,
+        //     'lastname' => $client->lastname,
+        //     'email_address' => $client->email_address,
+        //     'bus_name' => $request->bus_name,
+        //     'start_date' => $request->start_date,
+        //     'end_date' => $request->end_date,
+        //     'price' => $request->price,
+        //     'payment' => $request->payment,
+        //     'status' => $request->status,
+        // ];
+        // Mail::to("johnstiger12@gmail.com")->send(new EmailBooking($details));
         return response()->json(["message" => "Booking sent!"], 201);
     }
 
