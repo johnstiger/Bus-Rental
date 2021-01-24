@@ -142,7 +142,7 @@ class ClientController extends Controller
             'firstname' => 'required|min:3',
             'lastname' => 'required|min:3',
             'address' => 'required|min:3',
-            'contact_number' => 'required|min:3|max:11',
+            'contact_number' => 'required|digits:11',
             'email_address' => 'required|min:3|unique:client',
             'password' => 'required|min:8'
         ];
