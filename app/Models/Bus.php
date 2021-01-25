@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Bus extends Model
 {
     use HasFactory;
-    protected $table = 'buses';
+    // protected $table = 'bus';
     protected $fillable = [
         'bus_name',
         'number_of_seat',
