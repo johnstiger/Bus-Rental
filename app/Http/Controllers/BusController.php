@@ -43,7 +43,7 @@ class BusController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'img_url' => 'unique:bus',
+            'img_url' => 'unique:buses',
             'bus_name' => 'required',
             'number_of_seat' => 'required',
             'status' =>'required'
