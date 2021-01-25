@@ -54,12 +54,9 @@ class BusController extends Controller
         if($validator->fails()){
             return response()->json($validator->errors(),400);
         }
-        // $imageName = time().'.'.$request->image->extension(); 
-        // $request->image->move(public_path('images'), $imageName);
         
         $bus = new Bus();
         $bus->bus_name = $request->bus_name;
-        // $bus->img_url = $imageName;
         $bus->img_url = $request->img_url;
         $bus->number_of_seat =$request->number_of_seat;
         $bus->price = $request->price;
