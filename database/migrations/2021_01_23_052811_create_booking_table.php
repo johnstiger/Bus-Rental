@@ -15,11 +15,11 @@ class CreateBookingTable extends Migration
     {
         Schema::create('bookings', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedBigInteger('client_id');
-            $table->unsignedBigInteger('bus_id');
+            $table->string('client_name');
+            $table->string('bus_name');
             $table->date('start_date');
             $table->date('end_date');
-            $table->string('price');
+            $table->bigInteger('price');
             $table->enum('payment',['paypal','COD','paymaya']);
             $table->boolean('status');
             $table->timestamps();

@@ -9,6 +9,7 @@ use DateTime;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\EmailBooking;
 use App\Models\Client;
+use App\Models\Bus;
 use Illuminate\Support\Facades\DB;
 
 class BookingController extends Controller
@@ -24,15 +25,9 @@ class BookingController extends Controller
         if($booking == 0){
             return response()->json(["message" => "This field is empty"], 404);
         }
-        return response()->json(Booking::with('buses')->get(), 200);
+        return response()->json(Booking::with('buses')->where('status',1)->get(), 200);
     }
-    public function statusCheck(){
-        $status = DB::table('bookings')
-        ->select('status','id')
-        ->where("status", 1)
-        ->get();
-        return response()->json($status);
-    }
+   
 
     /**
      * Show the form for creating a new resource.
@@ -71,39 +66,31 @@ class BookingController extends Controller
         $interval = $dateTime1->diff($dateTime2);
         $interval->format('%a');
 
-        // $client->bookings()->create([
-        //     'client_id' => $client->id,
-        //     'bus_id' => $request->bus_id,
-        //     'start_date' => $request->start_date,
-        //     'end_date' => $request->end_date,
-        //     'price' => $request->price,
-        //     'payment' => $request->payment,
-        //     'status' => $request->status
-        // ]);
-
+        
+        $bus = Bus::find($request->bus_id);
         $booking = new Booking();
-        $booking->client_id = $client->id;
-        $booking->bus_id = $request->bus_id;
+        $booking->client_name = $client->firstname." ".$client->lastname;
+        $booking->bus_name = $bus->bus_name;
         $booking->start_date = $request->start_date;
         $booking->end_date = $request->end_date;
-        $booking->price = $request->price;
+        $booking->price = $interval->format('%a')*$bus->price;
         $booking->payment = $request->payment;
         $booking->status = $request->status;
         $booking->save();
 
-        // $details = [
-        //     'title'=> 'New Client Booked',
-        //     'firstname' => $client->firstname,
-        //     'lastname' => $client->lastname,
-        //     'email_address' => $client->email_address,
-        //     'bus_name' => $request->bus_name,
-        //     'start_date' => $request->start_date,
-        //     'end_date' => $request->end_date,
-        //     'price' => $request->price,
-        //     'payment' => $request->payment,
-        //     'status' => $request->status,
-        // ];
-        // Mail::to("johnstiger12@gmail.com")->send(new EmailBooking($details));
+        $details = [
+            'title'=> 'New Client Booked',
+            'firstname' => $client->firstname,
+            'lastname' => $client->lastname,
+            'email_address' => $client->email_address,
+            'bus_name' => $bus->bus_name,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+            'price' => $interval->format('%a')*$bus->price,
+            'payment' => $request->payment,
+            'status' => $request->status,
+        ];
+        Mail::to("johnstiger12@gmail.com")->send(new EmailBooking($details));
         return response()->json(["message" => "Booking sent!"], 201);
     }
 

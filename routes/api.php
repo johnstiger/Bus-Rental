@@ -20,10 +20,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 //client login-reg
-Route::get('client/login',[App\Http\Controllers\ClientController::class,'login']);
+Route::post('client/login',[App\Http\Controllers\ClientController::class,'login']);
 Route::post('client/register',[App\Http\Controllers\ClientController::class,'register']);
 //admin log-reg
-Route::get('admin/login',[App\Http\Controllers\AdminController::class,'login']);
+Route::post('admin/login',[App\Http\Controllers\AdminController::class,'login']);
 Route::post('admin/register',[App\Http\Controllers\AdminController::class,'register']);
 //Booking
 Route::apiResource('client/booking',BookingController::class);
