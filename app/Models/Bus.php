@@ -11,6 +11,7 @@ class Bus extends Model
     // protected $table = 'bus';
     protected $fillable = [
         'bus_name',
+        'img_url',
         'number_of_seat',
         'price',
         'status',
