@@ -67,13 +67,12 @@ class BookingController extends Controller
         $interval->format('%a');
 
         
-        $bus = Bus::find($request->bus_id);
         $booking = new Booking();
         $booking->client_name = $client->firstname." ".$client->lastname;
-        $booking->bus_name = $bus->bus_name;
+        $booking->bus_name = $request->bus_name;
         $booking->start_date = $request->start_date;
         $booking->end_date = $request->end_date;
-        $booking->price = $interval->format('%a')*$bus->price;
+        $booking->price = $interval->format('%a')*$request->price;
         $booking->payment = $request->payment;
         $booking->status = $request->status;
         $booking->save();
@@ -83,10 +82,10 @@ class BookingController extends Controller
             'firstname' => $client->firstname,
             'lastname' => $client->lastname,
             'email_address' => $client->email_address,
-            'bus_name' => $bus->bus_name,
+            'bus_name' => $request->bus_name,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
-            'price' => $interval->format('%a')*$bus->price,
+            'price' => $interval->format('%a')*$request->price,
             'payment' => $request->payment,
             'status' => $request->status,
         ];
