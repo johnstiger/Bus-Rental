@@ -18,11 +18,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('admin',AdminController::class);
-    Route::apiResource('admin/driver',DriverController::class);
-    Route::apiResource('admin/client',ClientController::class);
-    Route::apiResource('admin/bus',BusController::class);
-    Route::apiResource('client/booking',BookingController::class);
-
+    Route::apiResource('admin-driver',DriverController::class);
+    Route::apiResource('admin-client',ClientController::class);
+    Route::apiResource('admin-bus',BusController::class);
+    Route::apiResource('client-booking',BookingController::class);
 });
 
 
