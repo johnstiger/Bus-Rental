@@ -20,7 +20,7 @@ class CreateBookingTable extends Migration
             $table->date('start_date');
             $table->date('end_date');
             $table->bigInteger('price');
-            $table->enum('payment',['paypal','COD','paymaya']);
+            $table->enum('payment',['paypal','COH','paymaya']);
             $table->boolean('status');
             $table->timestamps();
             $table->softDeletes();
