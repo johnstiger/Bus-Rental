@@ -21,7 +21,7 @@ class BusController extends Controller
         if($bus == 0){
             return response()->json(["message" => "This field is empty"], 404);
         }
-        return response()->json(Bus::get(), 200);
+        return response()->json(Bus::all(), 200);
     }
 
     /**

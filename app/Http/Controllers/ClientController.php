@@ -116,9 +116,7 @@ class ClientController extends Controller
         $client->delete();
         return response()->json(["message" => "Successfully deleted!"], 204);
     }
-    public function logout(){
-        
-    }
+    
     //Log-Reg
     public function login(Request $request)
     {
