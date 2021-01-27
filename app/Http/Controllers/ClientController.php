@@ -6,6 +6,7 @@ use App\Models\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
+use TheSeer\Tokenizer\Exception;
 
 class ClientController extends Controller
 {
@@ -115,25 +116,39 @@ class ClientController extends Controller
         $client->delete();
         return response()->json(["message" => "Successfully deleted!"], 204);
     }
-
+    public function logout(){
+        
+    }
     //Log-Reg
-
     public function login(Request $request)
     {
-        
-    $client = Client::where('email_address', $request->email_address)->first();
-    if (!$client || !Hash::check($request->password, $client->password)) {
-    return response([
-    'message' => ['This credential does not match in our records!']
-    ], 404);
-    }
-    $token = $client->createToken('my_app_token')->plainTextToken;
+        try {
+            $validation  = Validator::make($request->all(), [
+                    'email_address'=> "required",
+                    'password'=> 'required'
+                ]);
 
-    $response = [
-    'user' => $client,
-    'token' => $token
-    ];
-    return response($response, 201);
+            if($validation->fails()) {
+                return response()->json($validation->errors());
+            }
+            $user = Client::where('email', $request->email_address)->first();
+            // return response()->json($user);
+            if (!$user || !Hash::check($request->password, $user->password)) {
+                throw new \Exception('Error Log In');
+            }
+            $tokenResult = $user->createToken('authToken')->plainTextToken;
+            return response()->json([
+              'status_code' => 200,
+              'access_token' => $tokenResult,
+              'token_type' => 'Bearer',
+            ]);
+        } catch (Exception $error) {
+            return response()->json([
+              'status_code' => 500,
+              'message' => 'Error Log In',
+              'error' => $error,
+            ]);
+        }
     }
 
     public function register(Request $request)

@@ -6,6 +6,8 @@ use App\Models\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+use TheSeer\Tokenizer\Exception;
 
 class AdminController extends Controller
 {
@@ -17,7 +19,7 @@ class AdminController extends Controller
     public function index()
     {
         $admin = Admin::count();
-        if($admin == 0){
+        if ($admin == 0) {
             return response()->json(["message" => "This field is empty"], 404);
         }
         return response()->json(Admin::get(), 200);
@@ -46,9 +48,9 @@ class AdminController extends Controller
             'email' => 'required|min:3|unique:admin',
             'password' => 'required|min:8'
         ];
-        $validator = Validator::make($request->all(),$rules);
-        if($validator->fails()){
-            return response()->json($validator->errors(),400);
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
         }
         $this->register($request);
         return response()->json(["message"=>"Added Successfully!"], 201);
@@ -63,7 +65,7 @@ class AdminController extends Controller
     public function show($id)
     {
         $admin = Admin::find($id);
-        if(is_null($admin)){
+        if (is_null($admin)) {
             return response()->json(["message" => "Id is not Found!"], 404);
         }
         return response()->json($admin, 200);
@@ -90,7 +92,7 @@ class AdminController extends Controller
     public function update(Request $request, $id)
     {
         $admin = Admin::find($id);
-        if(is_null($admin)){
+        if (is_null($admin)) {
             return response()->json(["message" => "Id is not Found!"], 404);
         }
         $admin->update($request->all());
@@ -106,7 +108,7 @@ class AdminController extends Controller
     public function destroy($id)
     {
         $admin = Admin::find($id);
-        if(is_null($admin)){
+        if (is_null($admin)) {
             return response()->json(["message" => "Id is not Found!"], 404);
         }
         $admin->delete();
@@ -114,28 +116,51 @@ class AdminController extends Controller
     }
 
 
-    //Log-Reg
+    //Log-Reg   
 
     public function login(Request $request)
     {
-        
-    $admin = Admin::where('email', $request->email)->first();
+        try {
+            // $request->validate([
+            //   'email' => 'email|required',
+            //  'password' => 'required'
+            // ]);
+            // $credentials = request(['email', 'password']);
+            // if (!Auth::attempt($credentials)) {
+            //     return response()->json([
+            //     'status_code' => 500,
+            //     'message' => 'UnAuthorized'
+            //   444444444444
+            $validation  = Validator::make($request->all(), [
+                    'email'=> "required",
+                    'password'=> 'required'
+                ]);
 
-    if (!$admin || !Hash::check($request->password, $admin->password)) {
-    return response([
-    'message' => ['This credential does not match in our records!']
-    ], 404);
+            if($validation->fails()) {
+                return response()->json($validation->errors());
+            }
+            $user = Admin::where('email', $request->email)->first();
+            // return response()->json($user);
+            if (!$user || !Hash::check($request->password, $user->password)) {
+                throw new \Exception('Error Log In');
+            }
+            $tokenResult = $user->createToken('authToken')->plainTextToken;
+            return response()->json([
+              'status_code' => 200,
+              'access_token' => $tokenResult,
+              'token_type' => 'Bearer',
+            ]);
+        } catch (Exception $error) {
+            return response()->json([
+              'status_code' => 500,
+              'message' => 'Error Log In',
+              'error' => $error,
+            ]);
+        }
     }
-
-    $token = $admin->createToken('my_app_token')->plainTextToken;
-
-    $response = [
-    'user' => $admin,
-    'token' => $token
-    ];
-    return response($response, 201);
+    public function logout()
+    {
     }
-
     public function register(Request $request)
     {
         $rules = [
@@ -143,9 +168,9 @@ class AdminController extends Controller
             'email' => 'required|min:3|unique:users',
             'password' => 'required|min:8'
         ];
-        $validator = Validator::make($request->all(),$rules);
-        if($validator->fails()){
-            return response()->json($validator->errors(),400);
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
         }
 
         $admin = new Admin();
@@ -155,5 +180,4 @@ class AdminController extends Controller
         $admin->save();
         return response()->json($admin, 201);
     }
-
 }

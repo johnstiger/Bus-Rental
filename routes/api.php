@@ -13,8 +13,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+Route::middleware('auth:sanctum')->group(function () {
+    Route::apiResource('admin',AdminController::class);
+    Route::apiResource('admin/driver',DriverController::class);
+    Route::apiResource('admin/client',ClientController::class);
+    Route::apiResource('admin/bus',BusController::class);
+    Route::apiResource('client/booking',BookingController::class);
 });
 
 
@@ -26,14 +33,8 @@ Route::post('client/register',[App\Http\Controllers\ClientController::class,'reg
 Route::post('admin/login',[App\Http\Controllers\AdminController::class,'login']);
 Route::post('admin/register',[App\Http\Controllers\AdminController::class,'register']);
 //Booking
-Route::apiResource('client/booking',BookingController::class);
 Route::post('client/booking/send/{client}',[App\Http\Controllers\BookingController::class,'store']);
-Route::get('admin/booking/status',[App\Http\Controllers\BookingController::class,'statusCheck']);
 
-Route::apiResource('admin/bus',BusController::class);
-Route::apiResource('admin/client',ClientController::class);
-Route::apiResource('admin/driver',DriverController::class);
-Route::apiResource('admin',AdminController::class);
 
 
 
