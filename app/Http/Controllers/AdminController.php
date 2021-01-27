@@ -22,7 +22,7 @@ class AdminController extends Controller
         if ($admin == 0) {
             return response()->json(["message" => "This field is empty"], 404);
         }
-        return response()->json(Admin::get(), 200);
+        return response()->json(Admin::all(), 200);
     }
 
     /**
