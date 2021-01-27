@@ -131,7 +131,7 @@ class ClientController extends Controller
             if($validation->fails()) {
                 return response()->json($validation->errors());
             }
-            $user = Client::where('email', $request->email_address)->first();
+            $user = Client::where('email_address', $request->email_address)->first();
             if (!$user || !Hash::check($request->password, $user->password)) {
                 throw new \Exception('Error Log In');
             }

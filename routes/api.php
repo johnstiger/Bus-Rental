@@ -22,6 +22,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('admin/client',ClientController::class);
     Route::apiResource('admin/bus',BusController::class);
     Route::apiResource('client/booking',BookingController::class);
+
 });
 
 
