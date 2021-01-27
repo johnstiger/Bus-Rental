@@ -21,7 +21,7 @@ class ClientController extends Controller
         if($client == 0){
             return response()->json(["message" => "This field is empty"], 404);
         }
-        return response()->json(Client::get(), 200);
+        return response()->json(Client::all(), 200);
     }
 
     /**
@@ -132,7 +132,6 @@ class ClientController extends Controller
                 return response()->json($validation->errors());
             }
             $user = Client::where('email', $request->email_address)->first();
-            // return response()->json($user);
             if (!$user || !Hash::check($request->password, $user->password)) {
                 throw new \Exception('Error Log In');
             }
