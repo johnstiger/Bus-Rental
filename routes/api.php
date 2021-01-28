@@ -26,10 +26,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
 
-//client login-reg
+//client config
 Route::post('client/login',[App\Http\Controllers\ClientController::class,'login']);
 Route::post('client/register',[App\Http\Controllers\ClientController::class,'register']);
-Route::get('client/buses',[App\Http\Controllers\BusController::class,'index']);
+Route::get('client/buses',[App\Http\Controllers\BusController::class,'viewClient']);
 
 //admin log-reg
 Route::post('admin/login',[App\Http\Controllers\AdminController::class,'login']);
