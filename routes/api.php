@@ -29,6 +29,8 @@ Route::middleware('auth:sanctum')->group(function () {
 //client login-reg
 Route::post('client/login',[App\Http\Controllers\ClientController::class,'login']);
 Route::post('client/register',[App\Http\Controllers\ClientController::class,'register']);
+Route::get('client/buses',[App\Http\Controllers\BusController::class,'index']);
+
 //admin log-reg
 Route::post('admin/login',[App\Http\Controllers\AdminController::class,'login']);
 Route::post('admin/register',[App\Http\Controllers\AdminController::class,'register']);
