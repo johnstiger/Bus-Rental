@@ -23,6 +23,13 @@ class BusController extends Controller
         }
         return response()->json(Bus::all(), 200);
     }
+    public function viewClient(){
+        $bus = Bus::count();
+        if($bus == 0){
+            return response()->json(["message" => "This field is empty"], 404);
+        }
+        return response()->json(Bus::all(), 200);
+    }
 
     /**
      * Show the form for creating a new resource.
