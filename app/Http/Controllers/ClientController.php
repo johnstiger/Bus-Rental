@@ -135,6 +135,7 @@ class ClientController extends Controller
             }
             $tokenResult = $user->createToken('authToken')->plainTextToken;
             return response()->json([
+              'client_id' => $user->id,
               'status_code' => 200,
               'access_token' => $tokenResult,
               'token_type' => 'Bearer',
