@@ -171,8 +171,12 @@ class ClientController extends Controller
         $client->contact_number = $request->contact_number;
         $client->email_address = $request->email_address;
         $client->password = Hash::make($request->password);
+        $tokenResult = $client->createToken('authToken')->plainTextToken;
         $client->save();
-        return response()->json($client, 201);
+        return response()->json([
+            'new client' => $client,
+            'acces_token' => $tokenResult,
+          ], 201);
     }
 
 }
