@@ -24,13 +24,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('client-booking',BookingController::class);
 });
 
-
-
 //client config
 Route::post('client/login',[App\Http\Controllers\ClientController::class,'login']);
 Route::post('client/register',[App\Http\Controllers\ClientController::class,'register']);
 Route::get('client/buses',[App\Http\Controllers\BusController::class,'viewClient']);
-
+Route::get('client/history/{id}',[App\Http\Controllers\HistoryController::class, 'history']);
 //admin log-reg
 Route::post('admin/login',[App\Http\Controllers\AdminController::class,'login']);
 Route::post('admin/register',[App\Http\Controllers\AdminController::class,'register']);
