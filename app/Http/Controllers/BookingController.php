@@ -47,10 +47,10 @@ class BookingController extends Controller
      */
     public function store(Request $request, Client $client)
     {
-        $day = date('Y/m/d');
+        $day = date('Y-m-d');
         $rules = [
-            'start_date' => "required |date_format:Y/m/d|after: $day|unique:bookings",
-            'end_date' => 'required |date_format:Y/m/d|after_or_equal:start_date',
+            'start_date' => "required |date_format:Y-m-d|after: $day|unique:bookings",
+            'end_date' => 'required |date_format:Y-m-d|after_or_equal:start_date',
             'payment' => 'required',
             'status' => 'required',
         ];
